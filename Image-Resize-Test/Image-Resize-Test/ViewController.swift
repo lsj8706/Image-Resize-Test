@@ -34,7 +34,7 @@ class ViewController: UIViewController {
   }()
 
   private let resizeMethodSegmentControl: UISegmentedControl = {
-    let items = ["방식 1", "방식 2", "방식 3"]
+    let items = ["방식 1", "방식 2", "방식 3", "방식4"]
     let segmentControl = UISegmentedControl(items: items)
     segmentControl.selectedSegmentIndex = 0
     return segmentControl
@@ -174,7 +174,6 @@ class ViewController: UIViewController {
     let imagePicker = UIImagePickerController()
     imagePicker.delegate = self
     imagePicker.sourceType = .photoLibrary
-    imagePicker.allowsEditing = true
     present(imagePicker, animated: true)
   }
 
