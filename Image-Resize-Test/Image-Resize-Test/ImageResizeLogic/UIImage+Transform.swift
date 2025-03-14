@@ -124,23 +124,3 @@ extension UIImage {
   }
 }
 
-
-// MARK: - Crop & Rotate
-
-extension UIImage {
-
-  func croppedImage(cropRect: CGRect?) -> UIImage {
-    guard var cgImage = self.cgImage else { return self }
-    guard let cropRect else { return self }
-
-    cgImage = cgImage.cropping(to: cropRect) ?? cgImage
-
-    // 이미지 회전
-    return UIImage(
-      cgImage: cgImage,
-      scale: self.scale,
-      orientation: self.imageOrientation
-    )
-  }
-}
-
