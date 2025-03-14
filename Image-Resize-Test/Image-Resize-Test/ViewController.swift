@@ -78,6 +78,16 @@ class ViewController: UIViewController {
     label.numberOfLines = 0
     return label
   }()
+  
+  private let dimensionComparisonLabel: UILabel = {
+    let label = UILabel()
+    label.textAlignment = .center
+    label.font = UIFont.systemFont(ofSize: 14)
+    label.textColor = .darkGray
+    label.text = "크기 비교: -"
+    label.numberOfLines = 0
+    return label
+  }()
 
 
   // MARK: - Properties
@@ -107,6 +117,7 @@ class ViewController: UIViewController {
     view.addSubview(resultImageView)
     view.addSubview(performanceLabel)
     view.addSubview(sizeComparisonLabel)
+    view.addSubview(dimensionComparisonLabel)
 
     selectedImageView.snp.makeConstraints { make in
       make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
@@ -151,6 +162,12 @@ class ViewController: UIViewController {
 
     sizeComparisonLabel.snp.makeConstraints { make in
       make.top.equalTo(performanceLabel.snp.bottom).offset(5)
+      make.leading.trailing.equalToSuperview()
+      make.height.equalTo(40)
+    }
+    
+    dimensionComparisonLabel.snp.makeConstraints { make in
+      make.top.equalTo(sizeComparisonLabel.snp.bottom).offset(5)
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(40)
     }
@@ -215,6 +232,7 @@ class ViewController: UIViewController {
     if let resizedImage {
       let resizedImageSize = getImageSize(image: resizedImage)
       updateSizeComparisonLabel(originalSize: originalImageSize, resizedSize: resizedImageSize)
+      updateDimensionComparisonLabel(originalImage: image, resizedImage: resizedImage)
     }
   }
 
@@ -240,6 +258,23 @@ class ViewController: UIViewController {
     sizeComparisonLabel.text = sizeText
   }
 
+  private func updateDimensionComparisonLabel(originalImage: UIImage, resizedImage: UIImage) {
+    let originalWidth = Int(originalImage.size.width)
+    let originalHeight = Int(originalImage.size.height)
+    let resizedWidth = Int(resizedImage.size.width)
+    let resizedHeight = Int(resizedImage.size.height)
+    
+    let dimensionText = String(
+      format: "width: %d -> %d\nheight: %d -> %d",
+      originalWidth, 
+      resizedWidth,
+      originalHeight, 
+      resizedHeight
+    )
+    
+    dimensionComparisonLabel.text = dimensionText
+  }
+
   private func reset() {
     // 상태 변수 초기화
     originalImageSize = 0
@@ -254,6 +289,7 @@ class ViewController: UIViewController {
     // 레이블 초기화
     performanceLabel.text = "실행 시간: -"
     sizeComparisonLabel.text = "용량 비교: -"
+    dimensionComparisonLabel.text = "크기 비교: -"
   }
 }
 
@@ -273,6 +309,11 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
       // 원본 이미지 용량 저장
       originalImageSize = getImageSize(image: originalImage)
       sizeComparisonLabel.text = String(format: "원본: %.1f KB", Double(originalImageSize) / 1024.0)
+      
+      // 원본 이미지 크기(가로/세로) 정보 표시
+      let width = Int(originalImage.size.width)
+      let height = Int(originalImage.size.height)
+      dimensionComparisonLabel.text = String(format: "width: %d -> ?\nheight: %d -> ?", width, height)
     }
 
     dismiss(animated: true)

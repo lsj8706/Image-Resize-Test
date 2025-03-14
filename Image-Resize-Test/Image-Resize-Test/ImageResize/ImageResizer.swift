@@ -5,9 +5,9 @@
 //  Created by Aiden.lee on 3/14/25.
 //
 
-import UIKit
 import CoreImage
 import CoreImage.CIFilterBuiltins
+import UIKit
 
 import SDWebImage
 
@@ -58,27 +58,27 @@ final class ImageResizer {
     guard let outputCGImage = context.createCGImage(
       outputImage,
       from: CGRect(x: 0, y: 0, width: scaledWidth, height: scaledHeight)
-    ) else { return nil }
+    )
+    else { return nil }
 
     return UIImage(cgImage: outputCGImage)
   }
 
-  func downSample(image: UIImage, size: CGSize, scale: CGFloat = UIScreen.main.scale) -> UIImage {
-      let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
-      let data = image.pngData()! as CFData
-      let imageSource = CGImageSourceCreateWithData(data, imageSourceOption)!
+  func downSample(image: UIImage, size: CGSize) -> UIImage {
+    let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
+    let data = image.pngData()! as CFData
+    let imageSource = CGImageSourceCreateWithData(data, imageSourceOption)!
+    let maxPixel = max(size.width, size.height)
+    let downSampleOptions = [
+      kCGImageSourceCreateThumbnailFromImageAlways: true,
+      kCGImageSourceShouldCacheImmediately: true,
+      kCGImageSourceCreateThumbnailWithTransform: true,
+      kCGImageSourceThumbnailMaxPixelSize: maxPixel,
+    ] as CFDictionary
 
-      let maxPixel = max(size.width, size.height) * scale
-      let downSampleOptions = [
-          kCGImageSourceCreateThumbnailFromImageAlways: true,
-          kCGImageSourceShouldCacheImmediately: true,
-          kCGImageSourceCreateThumbnailWithTransform: true,
-          kCGImageSourceThumbnailMaxPixelSize: maxPixel
-      ] as CFDictionary
+    let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
 
-      let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
-
-      let newImage = UIImage(cgImage: downSampledImage)
-      return newImage
+    let newImage = UIImage(cgImage: downSampledImage)
+    return newImage
   }
 }
