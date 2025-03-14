@@ -218,7 +218,7 @@ class ViewController: UIViewController {
     let startTime = CFAbsoluteTimeGetCurrent()
 
     // 리사이징 결과 이미지
-    let newSize = CGSize(width: 1440, height: 1440)
+    let newSize = uploadTargetSize(image: image)
     let resizedImage = imageResizer.resize(image: image, imageResizeType: imageResizeType, newSize: newSize)
 
     // 성능 측정 종료
@@ -236,6 +236,18 @@ class ViewController: UIViewController {
     }
   }
 
+  private func uploadTargetSize(image: UIImage) -> CGSize {
+    let uploadImageSize = CGSize(width: 1440, height: 1440)
+
+    let maxPixel: CGFloat = uploadImageSize.width
+    let aspectRatio = image.size.width / image.size.height
+
+    if aspectRatio > 1 {
+      return CGSize(width: maxPixel, height: maxPixel / aspectRatio)
+    }
+
+    return CGSize(width: maxPixel * aspectRatio, height: maxPixel)
+  }
 
   // MARK: - Helpers
 
