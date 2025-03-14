@@ -71,7 +71,10 @@ extension UIImage {
       space: colorSpace,
       bitmapInfo: normalizeBitmapInfo(imageRef.bitmapInfo)
     )
-    else { return self }
+    else {
+      print("디버그 bitmap 생성 실패")
+      return self
+    }
 
     // Rotate and/or flip the image if required by its orientation
     bitmap.concatenate(transform)
