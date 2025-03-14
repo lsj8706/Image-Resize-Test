@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 import SDWebImage
 
 final class ImageResizer {
+
+  let context = CIContext(options: [.useSoftwareRenderer: false])
+
   func resize(image: UIImage, imageResizeType: ImageResizeType, newSize: CGSize) -> UIImage? {
     switch imageResizeType {
     case .bitmap:
@@ -17,9 +22,44 @@ final class ImageResizer {
     case .sdWebImage:
       return image.sd_resizedImage(with: newSize, scaleMode: .aspectFit)
     case .lanczosScaleTransform:
-      return nil
+      return resizeUsingLanczos(image: image, to: newSize)
     case .downSampling:
       return nil
     }
+  }
+
+  /// Lanczos 알고리즘을 사용하여 이미지를 리사이징합니다.
+  /// - Parameters:
+  ///   - image: 리사이징할 원본 이미지
+  ///   - newSize: 타겟 이미지 크기
+  /// - Returns: 리사이징된 이미지 또는 nil (처리 실패시)
+  private func resizeUsingLanczos(image: UIImage, to newSize: CGSize) -> UIImage? {
+    // CGImage로 변환
+    guard let cgImage = image.cgImage else { return nil }
+
+    // CIImage 생성
+    let ciImage = CIImage(cgImage: cgImage)
+
+    // 비율 유지하면서 스케일 계산
+    let scale = min(newSize.width / image.size.width, newSize.height / image.size.height)
+
+    // Lanczos 필터 적용
+    let filter = CIFilter.lanczosScaleTransform()
+    filter.inputImage = ciImage
+    filter.scale = Float(scale)
+    filter.aspectRatio = Float(1.0) // 원본 비율 유지
+
+    guard let outputImage = filter.outputImage else { return nil }
+
+    // CIContext 생성 및 이미지 렌더링
+    let scaledWidth = image.size.width * CGFloat(scale)
+    let scaledHeight = image.size.height * CGFloat(scale)
+
+    guard let outputCGImage = context.createCGImage(
+      outputImage,
+      from: CGRect(x: 0, y: 0, width: scaledWidth, height: scaledHeight)
+    ) else { return nil }
+
+    return UIImage(cgImage: outputCGImage)
   }
 }
