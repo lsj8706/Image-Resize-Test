@@ -15,22 +15,15 @@ class ViewController: UIViewController {
 
   // MARK: - UI
 
-  private let selectImageButton: UIButton = {
-    let button = UIButton(type: .system)
-    button.setTitle("이미지 선택", for: .normal)
-    button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-    button.backgroundColor = .systemBlue
-    button.setTitleColor(.white, for: .normal)
-    button.layer.cornerRadius = 8
-    return button
-  }()
-
   private var selectedImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
     imageView.backgroundColor = .systemGray6
     imageView.layer.cornerRadius = 8
     imageView.clipsToBounds = true
+    imageView.isUserInteractionEnabled = true
+    imageView.image = UIImage(systemName: "plus")
+    imageView.tintColor = .systemGray4
     return imageView
   }()
 
@@ -79,7 +72,7 @@ class ViewController: UIViewController {
     label.numberOfLines = 0
     return label
   }()
-  
+
   private let dimensionComparisonLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
@@ -113,7 +106,6 @@ class ViewController: UIViewController {
     view.backgroundColor = .systemBackground
 
     view.addSubview(selectedImageView)
-    view.addSubview(selectImageButton)
     view.addSubview(resizeMethodSegmentControl)
     view.addSubview(resizeButton)
     view.addSubview(resultImageView)
@@ -125,35 +117,28 @@ class ViewController: UIViewController {
       make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
       make.leading.equalToSuperview().offset(20)
       make.trailing.equalToSuperview().offset(-20)
-      make.height.equalTo(200)
-    }
-
-    selectImageButton.snp.makeConstraints { make in
-      make.top.equalTo(selectedImageView.snp.bottom).offset(20)
-      make.centerX.equalToSuperview()
-      make.width.equalTo(150)
-      make.height.equalTo(44)
+      make.height.equalTo(250)
     }
 
     resizeMethodSegmentControl.snp.makeConstraints { make in
-      make.top.equalTo(selectImageButton.snp.bottom).offset(30)
+      make.top.equalTo(selectedImageView.snp.bottom).offset(10)
       make.leading.equalToSuperview().offset(20)
       make.trailing.equalToSuperview().offset(-20)
       make.height.equalTo(40)
     }
 
     resizeButton.snp.makeConstraints { make in
-      make.top.equalTo(resizeMethodSegmentControl.snp.bottom).offset(20)
+      make.top.equalTo(resizeMethodSegmentControl.snp.bottom).offset(10)
       make.centerX.equalToSuperview()
       make.width.equalTo(150)
       make.height.equalTo(44)
     }
 
     resultImageView.snp.makeConstraints { make in
-      make.top.equalTo(resizeButton.snp.bottom).offset(20)
+      make.top.equalTo(resizeButton.snp.bottom).offset(10)
       make.leading.equalToSuperview().offset(20)
       make.trailing.equalToSuperview().offset(-20)
-      make.height.equalTo(200)
+      make.height.equalTo(250)
     }
 
     performanceLabel.snp.makeConstraints { make in
@@ -167,7 +152,7 @@ class ViewController: UIViewController {
       make.leading.trailing.equalToSuperview()
       make.height.equalTo(40)
     }
-    
+
     dimensionComparisonLabel.snp.makeConstraints { make in
       make.top.equalTo(sizeComparisonLabel.snp.bottom).offset(5)
       make.leading.trailing.equalToSuperview()
@@ -179,11 +164,9 @@ class ViewController: UIViewController {
   // MARK: - Actions
 
   private func configureActions() {
-    selectImageButton.addTarget(
-      self,
-      action: #selector(selectImageButtonTapped),
-      for: .touchUpInside
-    )
+    // 이미지 뷰에 탭 제스처 추가
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectedImageViewTapped))
+    selectedImageView.addGestureRecognizer(tapGesture)
 
     resizeButton.addTarget(
       self,
@@ -193,7 +176,7 @@ class ViewController: UIViewController {
   }
 
   @objc
-  private func selectImageButtonTapped() {
+  private func selectedImageViewTapped() {
     let imagePicker = UIImagePickerController()
     imagePicker.delegate = self
     imagePicker.sourceType = .photoLibrary
@@ -287,29 +270,29 @@ class ViewController: UIViewController {
     let originalHeight = Int(originalImage.size.height)
     let resizedWidth = Int(resizedImage.size.width)
     let resizedHeight = Int(resizedImage.size.height)
-    
+
     let dimensionText = String(
       format: "width: %d -> %d\nheight: %d -> %d",
-      originalWidth, 
+      originalWidth,
       resizedWidth,
-      originalHeight, 
+      originalHeight,
       resizedHeight
     )
-    
+
     dimensionComparisonLabel.text = dimensionText
   }
 
   private func reset() {
     // 상태 변수 초기화
     originalImageSize = 0
-    
+
     // UI 요소 초기화
     selectedImageView.image = nil
     resultImageView.image = nil
 
     // 버튼 상태 초기화
     resizeButton.isEnabled = false
-    
+
     // 레이블 초기화
     performanceLabel.text = "실행 시간: -"
     sizeComparisonLabel.text = "용량 비교: -"
@@ -335,7 +318,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
       // 원본 이미지 용량 저장
       originalImageSize = getImageSize(image: originalImage)
       sizeComparisonLabel.text = String(format: "원본: %.1f KB", Double(originalImageSize) / 1024.0)
-      
+
       // 원본 이미지 크기(가로/세로) 정보 표시
       let width = Int(originalImage.size.width)
       let height = Int(originalImage.size.height)
