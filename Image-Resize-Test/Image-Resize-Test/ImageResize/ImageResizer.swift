@@ -24,7 +24,7 @@ final class ImageResizer {
     case .lanczosScaleTransform:
       return resizeUsingLanczos(image: image, to: newSize)
     case .downSampling:
-      return nil
+      return downSample(image: image, size: newSize)
     }
   }
 
@@ -61,5 +61,24 @@ final class ImageResizer {
     ) else { return nil }
 
     return UIImage(cgImage: outputCGImage)
+  }
+
+  func downSample(image: UIImage, size: CGSize, scale: CGFloat = UIScreen.main.scale) -> UIImage {
+      let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
+      let data = image.pngData()! as CFData
+      let imageSource = CGImageSourceCreateWithData(data, imageSourceOption)!
+
+      let maxPixel = max(size.width, size.height) * scale
+      let downSampleOptions = [
+          kCGImageSourceCreateThumbnailFromImageAlways: true,
+          kCGImageSourceShouldCacheImmediately: true,
+          kCGImageSourceCreateThumbnailWithTransform: true,
+          kCGImageSourceThumbnailMaxPixelSize: maxPixel
+      ] as CFDictionary
+
+      let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
+
+      let newImage = UIImage(cgImage: downSampledImage)
+      return newImage
   }
 }
