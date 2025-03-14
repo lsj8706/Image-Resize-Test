@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import RxSwift
 
 class ViewController: UIViewController {
 
@@ -94,6 +95,7 @@ class ViewController: UIViewController {
 
   private var originalImageSize = 0
   private var imageResizer = ImageResizer()
+  private var disposeBag = DisposeBag()
 
 
   // MARK: - Lifecycle
@@ -219,21 +221,31 @@ class ViewController: UIViewController {
 
     // 리사이징 결과 이미지
     let newSize = uploadTargetSize(image: image)
-    let resizedImage = imageResizer.resize(image: image, imageResizeType: imageResizeType, newSize: newSize)
+    let resizedImageSingle = imageResizer.resize(
+      image: image,
+      imageResizeType: imageResizeType,
+      newSize: newSize
+    )
 
-    // 성능 측정 종료
-    let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+    resizedImageSingle.subscribe { [weak self] resizedImage in
+      guard let self else { return }
 
-    // UI 업데이트
-    resultImageView.image = resizedImage
-    performanceLabel.text = String(format: "실행 시간: %.4f초", timeElapsed)
+      // 성능 측정 종료
+      let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
 
-    // 용량 비교
-    if let resizedImage {
-      let resizedImageSize = getImageSize(image: resizedImage)
-      updateSizeComparisonLabel(originalSize: originalImageSize, resizedSize: resizedImageSize)
-      updateDimensionComparisonLabel(originalImage: image, resizedImage: resizedImage)
-    }
+      // UI 업데이트
+      resultImageView.image = resizedImage
+      performanceLabel.text = String(format: "실행 시간: %.4f초", timeElapsed)
+
+      // 용량 비교
+      if let resizedImage {
+        let resizedImageSize = getImageSize(image: resizedImage)
+        updateSizeComparisonLabel(originalSize: originalImageSize, resizedSize: resizedImageSize)
+        updateDimensionComparisonLabel(originalImage: image, resizedImage: resizedImage)
+      }
+    } onFailure: { error in
+      print("디버그 에러 발생", error)
+    }.disposed(by: disposeBag)
   }
 
   private func uploadTargetSize(image: UIImage) -> CGSize {
@@ -302,6 +314,8 @@ class ViewController: UIViewController {
     performanceLabel.text = "실행 시간: -"
     sizeComparisonLabel.text = "용량 비교: -"
     dimensionComparisonLabel.text = "크기 비교: -"
+
+    disposeBag = DisposeBag()
   }
 }
 

@@ -10,22 +10,33 @@ import CoreImage.CIFilterBuiltins
 import UIKit
 
 import SDWebImage
+import RxSwift
 
 final class ImageResizer {
 
   let context = CIContext(options: [.useSoftwareRenderer: false])
 
-  func resize(image: UIImage, imageResizeType: ImageResizeType, newSize: CGSize) -> UIImage? {
-    switch imageResizeType {
-    case .bitmap:
-      return image.resizedImage(newSize, interpolationQuality: .high)
-    case .sdWebImage:
-      return image.sd_resizedImage(with: newSize, scaleMode: .aspectFit)
-    case .lanczosScaleTransform:
-      return resizeUsingLanczos(image: image, to: newSize)
-    case .downSampling:
-      return downSample(image: image, size: newSize)
+  func resize(image: UIImage, imageResizeType: ImageResizeType, newSize: CGSize) -> Single<UIImage?> {
+    return .create { [weak self] single in
+      guard let self else { return Disposables.create() }
+
+      let resizedImage: UIImage? = switch imageResizeType {
+      case .bitmap:
+        image.resizedImage(newSize, interpolationQuality: .high)
+      case .sdWebImage:
+        image.sd_resizedImage(with: newSize, scaleMode: .aspectFit)
+      case .lanczosScaleTransform:
+        resizeUsingLanczos(image: image, to: newSize)
+      case .downSampling:
+        downSample(image: image, size: newSize)
+      }
+
+      single(.success(resizedImage))
+
+      return Disposables.create()
     }
+    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .default))
+    .observe(on: MainScheduler.instance)
   }
 
   /// Lanczos 알고리즘을 사용하여 이미지를 리사이징합니다.
