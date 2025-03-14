@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ImageResizeType {
+enum ImageResizeType: Int {
   case bitmap
   case sdWebImage // UIGraphicsImageRenderer
   case lanczosScaleTransform

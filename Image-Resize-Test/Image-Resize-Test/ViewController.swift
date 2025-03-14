@@ -12,7 +12,7 @@ import SnapKit
 class ViewController: UIViewController {
 
 
-  // MARK: - Properties
+  // MARK: - UI
 
   private let selectImageButton: UIButton = {
     let button = UIButton(type: .system)
@@ -79,7 +79,11 @@ class ViewController: UIViewController {
     return label
   }()
 
+
+  // MARK: - Properties
+
   private var originalImageSize = 0
+  private var imageResizer = ImageResizer()
 
 
   // MARK: - Lifecycle
@@ -187,25 +191,18 @@ class ViewController: UIViewController {
   }
 
   private func performImageResize(image: UIImage, method: Int) {
+
+    guard let imageResizeType = ImageResizeType(rawValue: method) else {
+      print("유효하지 않은 리사이징 방식입니다.")
+      return
+    }
+
     // 성능 측정 시작
     let startTime = CFAbsoluteTimeGetCurrent()
 
     // 리사이징 결과 이미지
-    var resizedImage: UIImage?
-
-    switch method {
-    case 0:
-      // 방식 1: UIGraphicsImageRenderer (추후 구현)
-      resizedImage = image
-    case 1:
-      // 방식 2: UIGraphicsBeginImageContextWithOptions (추후 구현)
-      resizedImage = image
-    case 2:
-      // 방식 3: CoreImage (추후 구현)
-      resizedImage = image
-    default:
-      resizedImage = image
-    }
+    let newSize = CGSize(width: 1440, height: 1440)
+    let resizedImage = imageResizer.resize(image: image, imageResizeType: imageResizeType, newSize: newSize)
 
     // 성능 측정 종료
     let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
@@ -242,6 +239,22 @@ class ViewController: UIViewController {
     )
     sizeComparisonLabel.text = sizeText
   }
+
+  private func reset() {
+    // 상태 변수 초기화
+    originalImageSize = 0
+    
+    // UI 요소 초기화
+    selectedImageView.image = nil
+    resultImageView.image = nil
+
+    // 버튼 상태 초기화
+    resizeButton.isEnabled = false
+    
+    // 레이블 초기화
+    performanceLabel.text = "실행 시간: -"
+    sizeComparisonLabel.text = "용량 비교: -"
+  }
 }
 
 
@@ -253,6 +266,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
   ) {
     if let originalImage = info[.originalImage] as? UIImage {
+      reset()
       selectedImageView.image = originalImage
       resizeButton.isEnabled = true
 
