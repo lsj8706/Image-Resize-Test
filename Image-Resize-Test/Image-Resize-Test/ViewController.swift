@@ -62,6 +62,7 @@ class ViewController: UIViewController {
     label.font = UIFont.systemFont(ofSize: 14)
     label.textColor = .darkGray
     label.text = "실행 시간: -"
+    label.enableCopyOnTouch()
     return label
   }()
 
@@ -230,7 +231,7 @@ class ViewController: UIViewController {
 
       // UI 업데이트
       resultImageView.image = resizedImage
-      performanceLabel.text = String(format: "실행 시간: %.4f초", timeElapsed)
+      performanceLabel.text = String(format: "실행 시간: %.4f 초", timeElapsed)
 
       // 용량 비교
       if let resizedImage {
