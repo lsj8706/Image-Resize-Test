@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0769B8B12D87CF1D00F9495A /* ImageViewer_swift in Frameworks */ = {isa = PBXBuildFile; productRef = 0769B8B02D87CF1D00F9495A /* ImageViewer_swift */; };
+		0769B8B42D87D36C00F9495A /* Agrume in Frameworks */ = {isa = PBXBuildFile; productRef = 0769B8B32D87D36C00F9495A /* Agrume */; };
 		07FAE9C52D802F9200F7BAD3 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 07FAE9C42D802F9200F7BAD3 /* SDWebImage */; };
 		07FAE9C82D802FB600F7BAD3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 07FAE9C72D802FB600F7BAD3 /* SnapKit */; };
 		07FAE9CB2D802FDB00F7BAD3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 07FAE9CA2D802FDB00F7BAD3 /* RxCocoa */; };
@@ -78,6 +79,7 @@
 				07FAE9C52D802F9200F7BAD3 /* SDWebImage in Frameworks */,
 				0769B8B12D87CF1D00F9495A /* ImageViewer_swift in Frameworks */,
 				07FAE9CF2D802FDB00F7BAD3 /* RxSwift in Frameworks */,
+				0769B8B42D87D36C00F9495A /* Agrume in Frameworks */,
 				07FAE9CD2D802FDB00F7BAD3 /* RxRelay in Frameworks */,
 				07FAE9C82D802FB600F7BAD3 /* SnapKit in Frameworks */,
 			);
@@ -154,6 +156,7 @@
 				07FAE9CC2D802FDB00F7BAD3 /* RxRelay */,
 				07FAE9CE2D802FDB00F7BAD3 /* RxSwift */,
 				0769B8B02D87CF1D00F9495A /* ImageViewer_swift */,
+				0769B8B32D87D36C00F9495A /* Agrume */,
 			);
 			productName = "Image-Resize-Test";
 			productReference = 07FAE98E2D802F6900F7BAD3 /* Image-Resize-Test.app */;
@@ -242,6 +245,7 @@
 				07FAE9C62D802FB600F7BAD3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				07FAE9C92D802FDB00F7BAD3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				0769B8AF2D87CEF800F9495A /* XCRemoteSwiftPackageReference "ImageViewer.swift" */,
+				0769B8B22D87D36C00F9495A /* XCRemoteSwiftPackageReference "Agrume" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 07FAE98F2D802F6900F7BAD3 /* Products */;
@@ -614,6 +618,14 @@
 				minimumVersion = 3.3.8;
 			};
 		};
+		0769B8B22D87D36C00F9495A /* XCRemoteSwiftPackageReference "Agrume" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JanGorman/Agrume.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.10;
+			};
+		};
 		07FAE9C22D802F8700F7BAD3 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -645,6 +657,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0769B8AF2D87CEF800F9495A /* XCRemoteSwiftPackageReference "ImageViewer.swift" */;
 			productName = ImageViewer_swift;
+		};
+		0769B8B32D87D36C00F9495A /* Agrume */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0769B8B22D87D36C00F9495A /* XCRemoteSwiftPackageReference "Agrume" */;
+			productName = Agrume;
 		};
 		07FAE9C42D802F9200F7BAD3 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

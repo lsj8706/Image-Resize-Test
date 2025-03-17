@@ -1,6 +1,15 @@
 {
-  "originHash" : "9b2910c85ae186062cb986be4db5fa00489c993876c98b27d8eb4b9a8173a133",
+  "originHash" : "50871bb4863dcd1cf503852d07458a663309e5897ffbb0b5f17cfe55afc7c2a4",
   "pins" : [
+    {
+      "identity" : "agrume",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JanGorman/Agrume.git",
+      "state" : {
+        "revision" : "8e9f9735b67a714b67752b3ff0e5d5a97c29394a",
+        "version" : "5.8.10"
+      }
+    },
     {
       "identity" : "imageviewer.swift",
       "kind" : "remoteSourceControl",
@@ -35,6 +44,15 @@
       "state" : {
         "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
         "version" : "5.7.1"
+      }
+    },
+    {
+      "identity" : "swiftygif",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kirualex/SwiftyGif",
+      "state" : {
+        "revision" : "4430cbc148baa3907651d40562d96325426f409a",
+        "version" : "5.4.5"
       }
     }
   ],

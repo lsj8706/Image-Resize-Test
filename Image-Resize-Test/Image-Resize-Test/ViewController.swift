@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 import RxSwift
-import ImageViewer_swift
+import Agrume
 
 class ViewController: UIViewController {
 
@@ -52,6 +52,7 @@ class ViewController: UIViewController {
     imageView.backgroundColor = .systemGray6
     imageView.layer.cornerRadius = 8
     imageView.clipsToBounds = true
+    imageView.isUserInteractionEnabled = true
     return imageView
   }()
 
@@ -98,7 +99,6 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     configureActions()
-    resultImageView.setupImageViewer(options: [.closeIcon(UIImage(systemName: "xmark")!)])
   }
 
 
@@ -167,22 +167,32 @@ class ViewController: UIViewController {
 
   private func configureActions() {
     // 이미지 뷰에 탭 제스처 추가
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectedImageViewTapped))
-    selectedImageView.addGestureRecognizer(tapGesture)
+    let selectImageViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(selectImageViewTapped))
+    selectedImageView.addGestureRecognizer(selectImageViewTapGesture)
 
     resizeButton.addTarget(
       self,
       action: #selector(resizeButtonTapped),
       for: .touchUpInside
     )
+
+    let resultImageViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(resultImageViewTapped))
+    resultImageView.addGestureRecognizer(resultImageViewTapGesture)
   }
 
   @objc
-  private func selectedImageViewTapped() {
+  private func selectImageViewTapped() {
     let imagePicker = UIImagePickerController()
     imagePicker.delegate = self
     imagePicker.sourceType = .photoLibrary
     present(imagePicker, animated: true)
+  }
+
+  @objc
+  private func resultImageViewTapped() {
+    guard let image = resultImageView.image else { return }
+    let agrume = Agrume(image: image)
+    agrume.show(from: self)
   }
 
   @objc
