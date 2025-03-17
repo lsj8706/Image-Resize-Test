@@ -116,7 +116,7 @@ class ViewController: UIViewController {
     view.addSubview(dimensionComparisonLabel)
 
     selectedImageView.snp.makeConstraints { make in
-      make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+      make.top.equalTo(view.safeAreaLayoutGuide)
       make.leading.equalToSuperview().offset(20)
       make.trailing.equalToSuperview().offset(-20)
       make.height.equalTo(250)
