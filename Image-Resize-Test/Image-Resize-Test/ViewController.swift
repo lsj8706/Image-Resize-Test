@@ -28,7 +28,7 @@ class ViewController: UIViewController {
   }()
 
   private let resizeMethodSegmentControl: UISegmentedControl = {
-    let items = ["방식 1", "방식 2", "방식 3", "방식4"]
+    let items = ImageResizeType.allCases.map { $0.title }
     let segmentControl = UISegmentedControl(items: items)
     segmentControl.selectedSegmentIndex = 0
     return segmentControl

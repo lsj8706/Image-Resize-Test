@@ -7,9 +7,22 @@
 
 import Foundation
 
-enum ImageResizeType: Int {
+enum ImageResizeType: Int, CaseIterable {
   case bitmap
   case sdWebImage // UIGraphicsImageRenderer
   case lanczosScaleTransform
   case downSampling // ImageIO
+
+  var title: String {
+    switch self {
+    case .bitmap:
+      return "Bitmap"
+    case .sdWebImage:
+      return "SDWebImage"
+    case .lanczosScaleTransform:
+      return "Lanczos"
+    case .downSampling:
+      return "DownSampling"
+    }
+  }
 }
