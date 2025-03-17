@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import RxSwift
+import ImageViewer_swift
 
 class ViewController: UIViewController {
 
@@ -97,6 +98,7 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     configureActions()
+    resultImageView.setupImageViewer(options: [.closeIcon(UIImage(systemName: "xmark")!)])
   }
 
 

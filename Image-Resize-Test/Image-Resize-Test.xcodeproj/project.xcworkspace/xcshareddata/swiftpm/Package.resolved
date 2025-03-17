@@ -1,6 +1,15 @@
 {
-  "originHash" : "02379b4c1976a7bc43f429f74f44dfc2a2cf4df0983eb4fcb4fab8a38e24cd4a",
+  "originHash" : "9b2910c85ae186062cb986be4db5fa00489c993876c98b27d8eb4b9a8173a133",
   "pins" : [
+    {
+      "identity" : "imageviewer.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/michaelhenry/ImageViewer.swift.git",
+      "state" : {
+        "revision" : "3274b5f549b9e4cc8ab9f3e9734ee9fc6109e8e8",
+        "version" : "3.3.8"
+      }
+    },
     {
       "identity" : "rxswift",
       "kind" : "remoteSourceControl",

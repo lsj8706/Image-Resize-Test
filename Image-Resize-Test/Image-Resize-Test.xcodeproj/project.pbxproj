@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0769B8B12D87CF1D00F9495A /* ImageViewer_swift in Frameworks */ = {isa = PBXBuildFile; productRef = 0769B8B02D87CF1D00F9495A /* ImageViewer_swift */; };
 		07FAE9C52D802F9200F7BAD3 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 07FAE9C42D802F9200F7BAD3 /* SDWebImage */; };
 		07FAE9C82D802FB600F7BAD3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 07FAE9C72D802FB600F7BAD3 /* SnapKit */; };
 		07FAE9CB2D802FDB00F7BAD3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 07FAE9CA2D802FDB00F7BAD3 /* RxCocoa */; };
@@ -75,6 +76,7 @@
 			files = (
 				07FAE9CB2D802FDB00F7BAD3 /* RxCocoa in Frameworks */,
 				07FAE9C52D802F9200F7BAD3 /* SDWebImage in Frameworks */,
+				0769B8B12D87CF1D00F9495A /* ImageViewer_swift in Frameworks */,
 				07FAE9CF2D802FDB00F7BAD3 /* RxSwift in Frameworks */,
 				07FAE9CD2D802FDB00F7BAD3 /* RxRelay in Frameworks */,
 				07FAE9C82D802FB600F7BAD3 /* SnapKit in Frameworks */,
@@ -151,6 +153,7 @@
 				07FAE9CA2D802FDB00F7BAD3 /* RxCocoa */,
 				07FAE9CC2D802FDB00F7BAD3 /* RxRelay */,
 				07FAE9CE2D802FDB00F7BAD3 /* RxSwift */,
+				0769B8B02D87CF1D00F9495A /* ImageViewer_swift */,
 			);
 			productName = "Image-Resize-Test";
 			productReference = 07FAE98E2D802F6900F7BAD3 /* Image-Resize-Test.app */;
@@ -238,6 +241,7 @@
 				07FAE9C22D802F8700F7BAD3 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				07FAE9C62D802FB600F7BAD3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				07FAE9C92D802FDB00F7BAD3 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				0769B8AF2D87CEF800F9495A /* XCRemoteSwiftPackageReference "ImageViewer.swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 07FAE98F2D802F6900F7BAD3 /* Products */;
@@ -323,9 +327,9 @@
 				DEVELOPMENT_TEAM = 9K86FQHDLU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Image-Resize-Test/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이미지를 선택하고 처리하기 위해 사진 라이브러리에 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -351,9 +355,9 @@
 				DEVELOPMENT_TEAM = 9K86FQHDLU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Image-Resize-Test/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "이미지를 선택하고 처리하기 위해 사진 라이브러리에 접근이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -602,6 +606,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0769B8AF2D87CEF800F9495A /* XCRemoteSwiftPackageReference "ImageViewer.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/michaelhenry/ImageViewer.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.8;
+			};
+		};
 		07FAE9C22D802F8700F7BAD3 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -629,6 +641,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0769B8B02D87CF1D00F9495A /* ImageViewer_swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0769B8AF2D87CEF800F9495A /* XCRemoteSwiftPackageReference "ImageViewer.swift" */;
+			productName = ImageViewer_swift;
+		};
 		07FAE9C42D802F9200F7BAD3 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 07FAE9C22D802F8700F7BAD3 /* XCRemoteSwiftPackageReference "SDWebImage" */;
