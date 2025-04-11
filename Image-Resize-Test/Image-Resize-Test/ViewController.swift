@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 import RxSwift
-import Agrume
+//import Agrume
 
 class ViewController: UIViewController {
 
@@ -192,8 +192,8 @@ class ViewController: UIViewController {
   @objc
   private func resultImageViewTapped() {
     guard let image = resultImageView.image else { return }
-    let agrume = Agrume(image: image)
-    agrume.show(from: self)
+//    let agrume = Agrume(image: image)
+//    agrume.show(from: self)
   }
 
   @objc
@@ -279,13 +279,13 @@ class ViewController: UIViewController {
   }
 
   private func updateDimensionComparisonLabel(originalImage: UIImage, resizedImage: UIImage) {
-    let originalWidth = Int(originalImage.size.width)
-    let originalHeight = Int(originalImage.size.height)
-    let resizedWidth = Int(resizedImage.size.width)
-    let resizedHeight = Int(resizedImage.size.height)
+    let originalWidth = originalImage.size.width
+    let originalHeight = originalImage.size.height
+    let resizedWidth = resizedImage.size.width
+    let resizedHeight = resizedImage.size.height
 
     let dimensionText = String(
-      format: "width: %d -> %d\nheight: %d -> %d",
+      format: "width: %.2f -> %.2f\nheight: %.2f -> %.2f",
       originalWidth,
       resizedWidth,
       originalHeight,
@@ -333,9 +333,9 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
       sizeComparisonLabel.text = String(format: "원본: %.1f KB", Double(originalImageSize) / 1024.0)
 
       // 원본 이미지 크기(가로/세로) 정보 표시
-      let width = Int(originalImage.size.width)
-      let height = Int(originalImage.size.height)
-      dimensionComparisonLabel.text = String(format: "width: %d -> ?\nheight: %d -> ?", width, height)
+      let width = originalImage.size.width
+      let height = originalImage.size.height
+      dimensionComparisonLabel.text = String(format: "width: %.2f -> ?\nheight: %.2f -> ?", width, height)
     }
 
     dismiss(animated: true)
